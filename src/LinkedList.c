@@ -584,10 +584,13 @@ LinkedList* ll_clone(LinkedList* this)
 }
 
 
+
+
+
 /** \brief Ordena los elementos de la lista utilizando la funcion criterio recibida como parametro
  * \param pList LinkedList* Puntero a la lista
  * \param pFunc (*pFunc) Puntero a la funcion criterio
- * \param order int  [1] Indica orden ascendente - [0] Indica orden descendente
+ * \param order int  [0] Indica orden ascendente - [1] Indica orden descendente
  * \return int Retorna  (-1) Error: si el puntero a la listas es NULL
                                 ( 0) Si ok
  */

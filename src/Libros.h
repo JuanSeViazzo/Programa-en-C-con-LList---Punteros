@@ -73,4 +73,5 @@ int libros_filterEditorial(void* pLibro);
 
 int libros_EditorialConDescuento(void* pLibro);
 
+int libros_filterAutor(void* pLibro);
 #endif /* Libros_H_ */

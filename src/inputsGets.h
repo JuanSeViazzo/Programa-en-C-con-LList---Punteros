@@ -22,7 +22,7 @@ int utn_obtenerEnteroConReintentosMinMax(int* pResultado, char* mensaje, char* m
 
 int utn_getNumeroFlotanteConReintentos(float* pResultado, char mensaje[], char mensajeError[], int reintentos);
 int utn_obtenerEnteroConReintentos(int* pResultado, char* mensaje, char* mensajeError, int reintentos);
-
+int utn_getNumeroMinMaxReint(int* pResultado, char mensaje[], char mensajeError[],int minimo, int maximo, int reintentos);
 //VA DENTRO DE GETNUMERO Y TIENE myGets y EsNumerica.
 
 int utn_getNumero(int* pResultado, char mensaje[], char mensajeError[],int minimo, int maximo, int reintentos);

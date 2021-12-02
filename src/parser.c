@@ -4,12 +4,11 @@
 #include "Libros.h"
 #include "LinkedList.h"
 
-/** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo texto).
- *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
- *
+/**
+ * @brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo texto)
+ * @param pFile puntero al archivo
+ * @param pArrayListLibros linkedlist de libros
+ * @return estado, -1 si hay ERROR en el parseo, 0 si esta OK.
  */
 int parser_LibrosFromText(FILE* pFile , LinkedList* pArrayListLibros)
 {
@@ -33,7 +32,7 @@ int parser_LibrosFromText(FILE* pFile , LinkedList* pArrayListLibros)
 			{
 				if(fscanf(pFile,"%[^,],%[^,],%[^,],%[^,],%[^\n]\n",auxId,auxTitulo,auxAutor,auxPrecio,auxEditorial)==5)
 				{
-		    		 //  printf("Libro ID: %s - Titulo: %s - autor: %s - precio: %s - editorial: %s \n",auxId,auxTitulo,auxAutor,auxPrecio,auxEditorial);
+		    		//printf("Libro ID: %s - Titulo: %s - autor: %s - precio: %s - editorial: %s \n",auxId,auxTitulo,auxAutor,auxPrecio,auxEditorial);
 						auxLibros=Libros_newParametros(auxId,auxTitulo,auxAutor,auxPrecio,auxEditorial);
 
 
@@ -64,12 +63,11 @@ int parser_LibrosFromText(FILE* pFile , LinkedList* pArrayListLibros)
 	return estado;
 }
 
-/** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
- *
+/**
+ * @brief Parsea los datos los datos de los empleados desde el archivo data.bin (modo binario)
+ * @param pFile puntero al archivo
+ * @param pArrayListLibros linkedlist de libros
+ * @return estado, -1 si hay ERROR en el parseo, 0 si esta OK.
  */
 int parser_LibrosFromBinary(FILE* pFile , LinkedList* pArrayListLibros)
 {

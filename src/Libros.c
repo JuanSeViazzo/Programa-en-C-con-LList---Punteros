@@ -13,7 +13,10 @@
 #define SALAMANDRA 5
 #define PENGUIN_BOOKS 6
 
-
+/**
+ * @brief crea un nuevo elemento de la estructura libros.
+ * @return pLibros, puntero al elemento.
+ */
 
 Libros* Libros_new(void)
 {
@@ -21,6 +24,16 @@ Libros* Libros_new(void)
 
 	return pLibros;
 }
+
+/**
+ * @brief funcion donde se reciben los datos desde parser(lectura del archivo) y se utilizan los seters para formar la entidad.
+ * @param id dato ID del libro
+ * @param titulo dato titulo del libro
+ * @param autor del libro
+ * @param precio del libro
+ * @param editorial del libro
+ * @return puntero a la entidad cargada.
+ */
 
 Libros* Libros_newParametros(char* id,char* titulo,char* autor,char* precio,char* editorial)
 {
@@ -38,14 +51,18 @@ Libros* Libros_newParametros(char* id,char* titulo,char* autor,char* precio,char
     	   Libros_setPrecioTxt(pLibros, precio);
     	   Libros_setTitulo(pLibros, titulo);
 
-		   printf("Libro ID: %s - Titulo: %s - autor: %s - precio: %s - editorial: %s \n",id,titulo,autor,precio,editorial);
+		  printf("Libro ID: %s - Titulo: %s - autor: %s - precio: %s - editorial: %s \n",id,titulo,autor,precio,editorial);
 
        }
-
 return pLibros;
-
-
 }
+
+
+
+/**
+ * @brief libera el espacio de memoria ocupado por la entidad.
+ * @param pLibro puntero a la entidad pLibro.
+ */
 
 void Libros_delete(Libros* pLibro)
 {
@@ -56,6 +73,13 @@ void Libros_delete(Libros* pLibro)
 	}
 
 }
+
+/**
+ * @brief guarda el campo id dentro de la entidad con el operador flecha.
+ * @param pLibro puntero a la entidad.
+ * @param id dato entero del id del libro
+ * @return retorno, retorna -1 si hay ERROR, 0 si esta OK.
+ */
 
 int Libros_setIdInt(Libros* pLibro,int id)
 {
@@ -71,6 +95,12 @@ int Libros_setIdInt(Libros* pLibro,int id)
 
 return retorno;
 }
+
+/**
+ * @brief funcion que utiliza los geters para obtener desde la entidad el campo que se mostrara en controller list
+ * @param pLibro puntero a la entidad
+ * @return retorna -1 en caso de ERROR y 0 en caso de funcionar correctamente.
+ */
 
 int Libros_printLibros(Libros* pLibro)
 {
@@ -89,7 +119,7 @@ int Libros_printLibros(Libros* pLibro)
 		Libros_getIdEditorial(pLibro,editorial)==0 &&
 		Libros_getTitulo(pLibro, titulo)==0)
         {
-    		printf("Libro ID: %-2d	-	Titulo: %-50s	-	Autor: %-20s  -	Precio: %d				-		Editorial: %s\n",id,titulo,autor,precio,editorial);
+    		printf("Libro ID: %-2d	-	Titulo: %-50s  -	Autor: %-17s  -	Precio: %d	-	Editorial: %s\n",id,titulo,autor,precio,editorial);
 
     	    estado = 0;
         }
@@ -97,6 +127,13 @@ int Libros_printLibros(Libros* pLibro)
 
     return estado;
 }
+
+/**
+ * @brief guarda el campo id dentro de la entidad con el operador flecha.
+ * @param pLibro puntero a la entidad.
+ * @param id dato entero del id del libro
+ * @return retorno, retorna -1 si hay ERROR, 0 si esta OK.
+ */
 
 int Libros_setIdTxt(Libros* pLibro, char* id)
 {
@@ -114,6 +151,12 @@ int Libros_setIdTxt(Libros* pLibro, char* id)
 	return retorno;
 }
 
+/**
+ * @brief funcion para obtener el valor de la variable desde la entidad mediante operador ->
+ * @param pLibro puntero a la entidad.
+ * @param idLibro puntero al dato .
+ * @return retorna -1 en caso de ERROR retorna 0 en caso de OK.
+ */
 int Libros_getIdInt(Libros* pLibro,int* idLibro)
 {
 
@@ -129,6 +172,12 @@ int Libros_getIdInt(Libros* pLibro,int* idLibro)
 
 }
 
+/**
+ * @brief funcion para obtener el valor de la variable desde la entidad mediante operador ->
+ * @param pLibro puntero a la entidad.
+ * @param idLibro puntero al dato .
+ * @return retorna -1 en caso de ERROR retorna 0 en caso de OK.
+ */
 
 int Libros_getIdTxt(Libros* pLibro, char* id)
 {
@@ -144,6 +193,13 @@ int Libros_getIdTxt(Libros* pLibro, char* id)
 	return retorno;
 }
 
+/**
+ * @brief guarda el campo titulo dentro de la entidad con el operador flecha.
+ * @param pLibro puntero a la entidad.
+ * @param titulo dato char del titulo del libro
+ * @return retorno, retorna -1 si hay ERROR, 0 si esta OK.
+ */
+
 int Libros_setTitulo(Libros* pLibro,char* titulo) //set para escribir en la posicion
 {
 
@@ -158,6 +214,12 @@ int Libros_setTitulo(Libros* pLibro,char* titulo) //set para escribir en la posi
 return retorno;
 }
 
+/**
+ * @brief funcion para obtener el valor de la variable desde la entidad mediante operador ->
+ * @param pLibro puntero a la entidad.
+ * @param idLibro puntero al dato.
+ * @return retorna -1 en caso de ERROR retorna 0 en caso de OK.
+ */
 int Libros_getTitulo(Libros* pLibro,char* titulo) //get para leer de la posicion.
 {
 	int retorno = -1;
@@ -171,6 +233,13 @@ int Libros_getTitulo(Libros* pLibro,char* titulo) //get para leer de la posicion
 
 	return retorno;
 }
+
+/**
+ * @brief guarda el campo precio dentro de la entidad con el operador flecha.
+ * @param pLibro puntero a la entidad.
+ * @param titulo dato char del precio del libro
+ * @return retorno, retorna -1 si hay ERROR, 0 si esta OK.
+ */
 
 int Libros_setPrecioTxt(Libros* pLibro, char* precio)
 {
@@ -189,7 +258,12 @@ int Libros_setPrecioTxt(Libros* pLibro, char* precio)
 	return retorno;
 }
 
-
+/**
+ * @brief guarda el campo precio dentro de la entidad con el operador flecha.
+ * @param pLibro puntero a la entidad.
+ * @param titulo dato int del precio del libro
+ * @return retorno, retorna -1 si hay ERROR, 0 si esta OK.
+ */
 
 int Libros_setPrecio(Libros* pLibro,int precio)
 {
@@ -205,11 +279,17 @@ int Libros_setPrecio(Libros* pLibro,int precio)
 	}
 
 return retorno;
-
-
-
-
 }
+
+
+
+/**
+ * @brief funcion para obtener el valor de la variable desde la entidad mediante operador ->
+ * @param pLibro puntero a la entidad.
+ * @param idLibro puntero al dato.
+ * @return retorna -1 en caso de ERROR retorna 0 en caso de OK.
+ */
+
 int Libros_getPrecio(Libros* pLibro,int* precio)
 {
 
@@ -225,6 +305,15 @@ int Libros_getPrecio(Libros* pLibro,int* precio)
 	return retorno;
 }
 
+
+/**
+ * @brief guarda el campo autor dentro de la entidad con el operador flecha.
+ * @param pLibro puntero a la entidad.
+ * @param titulo dato char del autor del libro
+ * @return retorno, retorna -1 si hay ERROR, 0 si esta OK.
+ */
+
+
 int Libros_setAutor(Libros* pLibro,char* autor) //set para escribir en la posicion
 {
 
@@ -239,6 +328,14 @@ int Libros_setAutor(Libros* pLibro,char* autor) //set para escribir en la posici
 
 return retorno;
 }
+
+
+/**
+ * @brief funcion para obtener el valor de la variable desde la entidad mediante operador ->
+ * @param pLibro puntero a la entidad.
+ * @param idLibro puntero al dato.
+ * @return retorna -1 en caso de ERROR retorna 0 en caso de OK.
+ */
 
 int Libros_getAutor(Libros* pLibro,char* autor) //get para leer de la posicion.
 {
@@ -256,7 +353,12 @@ int Libros_getAutor(Libros* pLibro,char* autor) //get para leer de la posicion.
 
 
 
-
+/**
+ * @brief busca la posicion de una entidad en base a su ID.
+ * @param pListLibros puntero a la lista
+ * @param id valor del ID
+ * @return retorna -1 en caso de ERROR retorna 0 en caso de OK.
+ */
 
 int Libros_findById(LinkedList* pListLibros,int id)
 {
@@ -285,6 +387,8 @@ int Libros_findById(LinkedList* pListLibros,int id)
 	}
 return retorno;
 }
+/*
+
 
 void showLibros(Libros* pArrayLibros)
 {
@@ -298,7 +402,14 @@ void showLibros(Libros* pArrayLibros)
     {
       printf("\nNo se encontraron Libros para mostrar.");
     }
-}
+}*/
+
+/**
+ * @brief funcion para ordenar por ID.
+ * @param parametroUno variable que le paso desde ll_sort a la funcion sortId
+ * @param parametroDos variable que le paso desde ll_sort a la funcion sortId
+ * @return retorna 1 si el elemento 1 es menor al 2, retorna -1 si el elemento 1 es mayor al 2.
+ */
 
 int Libros_sortId(void* parametroUno,void* parametroDos)
 {
@@ -329,24 +440,24 @@ int Libros_sortId(void* parametroUno,void* parametroDos)
     return retorno;
 }
 /*
-int Libros_sortHoras(void* parametroUno,void* parametroDos)
+int Libros_sort(void* parametroUno,void* parametroDos)
 {
     int retorno;
-    int horasAuxUno;
-    int horasAuxDos;
+    int AuxUno;
+    int AuxDos;
 
     if(parametroUno!=NULL&&parametroDos!=NULL)
 	{
-		Libros_getPrecio((Libros*)parametroUno,&horasAuxUno);
-		Libros_getPrecio((Libros*)parametroDos,&horasAuxDos);
+		Libros_getPrecio((Libros*)parametroUno,&AuxUno);
+		Libros_getPrecio((Libros*)parametroDos,&AuxDos);
 
-		if (horasAuxUno<horasAuxDos)
+		if (AuxUno<AuxDos)
 		{
 			retorno=1;
 		}
 		else
 		{
-			if (horasAuxUno>horasAuxDos)
+			if (AuxUno>AuxDos)
 			{
 				retorno=-1;
 			} else
@@ -359,6 +470,14 @@ int Libros_sortHoras(void* parametroUno,void* parametroDos)
     return retorno;
 }
 */
+
+/**
+ * @brief funcion para ordenar por Precio.
+ * @param parametroUno variable que le paso desde ll_sort a la funcion sortPrecio
+ * @param parametroDos variable que le paso desde ll_sort a la funcion sortPrecio
+ * @return retorna 1 si el elemento 1 es menor al 2, retorna -1 si el elemento 1 es mayor al 2.
+ */
+
 int Libros_sortPrecio(void* parametroUno,void* parametroDos)
 {
     int retorno;
@@ -388,7 +507,12 @@ int Libros_sortPrecio(void* parametroUno,void* parametroDos)
 
     return retorno;
 }
-
+/**
+ * @brief funcion para ordenar por Titulo.
+ * @param parametroUno variable que le paso desde ll_sort a la funcion sortTitulo
+ * @param parametroDos variable que le paso desde ll_sort a la funcion sortTitulo
+ * @return retorna 1 si el elemento 1 es menor al 2, retorna -1 si el elemento 1 es mayor al 2.
+ */
 int Libros_sortTitulo(void* parametroUno,void* parametroDos)
 {
     int retorno;
@@ -418,6 +542,14 @@ int Libros_sortTitulo(void* parametroUno,void* parametroDos)
 
     return retorno;
 }
+
+/**
+ * @brief funcion para ordenar por Autor.
+ * @param parametroUno variable que le paso desde ll_sort a la funcion sortAutor
+ * @param parametroDos variable que le paso desde ll_sort a la funcion sortAutor
+ * @return retorna 1 si el elemento 1 es menor al 2, retorna -1 si el elemento 1 es mayor al 2.
+ */
+
 int Libros_sortAutor(void* parametroUno,void* parametroDos)
 {
     int retorno;
@@ -448,6 +580,12 @@ int Libros_sortAutor(void* parametroUno,void* parametroDos)
     return retorno;
 }
 
+/**
+ * @brief funcion para ordenar por Editorial.
+ * @param parametroUno variable que le paso desde ll_sort a la funcion sortEditorial
+ * @param parametroDos variable que le paso desde ll_sort a la funcion sortEditorial
+ * @return retorna 1 si el elemento 1 es menor al 2, retorna -1 si el elemento 1 es mayor al 2.
+ */
 int Libros_sortEditorial(void* parametroUno,void* parametroDos)
 {
     int retorno;
@@ -478,6 +616,12 @@ int Libros_sortEditorial(void* parametroUno,void* parametroDos)
     return retorno;
 }
 
+/**
+ * @brief guarda el campo editorial dentro de la entidad con el operador flecha.
+ * @param pLibro puntero a la entidad.
+ * @param titulo dato char de la editorial del libro
+ * @return retorno, retorna -1 si hay ERROR, 0 si esta OK.
+ */
 
 int Libros_setIdEditorialTxt(Libros* pLibro, char* idEditorial)
 {
@@ -508,6 +652,14 @@ int Libros_setIdEditorialTxt(Libros* pLibro, char* idEditorial)
 	return retorno;
 }
 
+
+/**
+ * @brief guarda el campo editorial dentro de la entidad con el operador flecha.
+ * @param pLibro puntero a la entidad.
+ * @param titulo dato int de la editorial del libro
+ * @return retorno, retorna -1 si hay ERROR, 0 si esta OK.
+ */
+
 int Libros_setIdEditorial(Libros* pLibro,int idEditorial)
 {
 
@@ -518,6 +670,14 @@ int Libros_setIdEditorial(Libros* pLibro,int idEditorial)
 
 	return retorno;
 }
+
+/**
+ * @brief funcion para obtener el valor de la variable desde la entidad mediante operador ->
+ * @param pLibro puntero a la entidad.
+ * @param idEditorial puntero al dato
+ * @return retorna -1 en caso de ERROR retorna 0 en caso de OK.
+ */
+
 int Libros_getIdEditorial(Libros* pLibro,char* idEditorial)
 {
 	int retorno = -1 ;
@@ -556,7 +716,12 @@ int Libros_getIdEditorial(Libros* pLibro,char* idEditorial)
 	}
 	return retorno;
 }
-
+/**
+ * @brief funcion para obtener el valor de la variable desde la entidad mediante operador ->
+ * @param pLibro puntero a la entidad.
+ * @param idEditorial  puntero al dato
+ * @return retorna -1 en caso de ERROR retorna 0 en caso de OK.
+ */
 
 int Libros_getEditorial(Libros* pLibro,int* idEditorial)
 {
@@ -573,6 +738,11 @@ int Libros_getEditorial(Libros* pLibro,int* idEditorial)
 	return retorno;
 }
 
+/**
+ * @brief funcion que sera usada dentro de ll_filter, la misma se usa para pasar criterio de filtro.
+ * @param pLibro puntero a la entidad
+ * @return retorna -1 en caso de ERROR. y 0 en caso de que este OK.
+ */
 
 int libros_filterEditorial(void* pLibro)
 {
@@ -597,6 +767,13 @@ int libros_filterEditorial(void* pLibro)
 
 	return retorno;
 }
+
+
+/**
+ * @brief funcion que se pasa como criterio a ll_map, para aplicar descuento al haber mapeado todo y coincidencia de criterio
+ * @param pLibro puntero a la entidad.
+ * @return retorna -1 en caso de ERROR. y 0 en caso de que este OK.
+ */
 
 int libros_EditorialConDescuento(void* pLibro)
 {
@@ -639,3 +816,67 @@ int libros_EditorialConDescuento(void* pLibro)
 	return retorno;
 }
 
+/**
+ * @brief filtra autor desde int (recibido por lista mostrada), y si hay coincidencia, realizo el filtro
+ * @param pLibro puntero a la entidad;
+ * @return retorna 0 si el elemento no cumple con el parametro de filtro, se realiza delete, para no perder la direccion, despues el remove, si es 0 se guarda en la lista.
+ */
+int libros_filterAutor(void* pLibro)
+{
+	int retorno=-1;
+	Libros* auxLibro=(Libros*)pLibro;
+	char auxGetAutor[LEN_NOMBRE];
+	char auxAutor[LEN_NOMBRE];
+	int estado;
+	static int bandera=0;
+
+	if(bandera==0)
+	{
+		bandera=1;
+		utn_obtenerEnteroConReintentosMinMax(&estado, "\nIngrese el Numero de autor: ","\n Dato erroneo", 1, 9, 3);
+	}
+		switch (estado)
+		{
+			case 1:
+				strncpy(auxAutor,"Pigna",sizeof(auxAutor));
+				break;
+			case 2:
+				strncpy(auxAutor,"Paenza",sizeof(auxAutor));
+				break;
+			case 3:
+				strncpy(auxAutor,"Deitel & Deitel",sizeof(auxAutor));
+				break;
+			case 4:
+				strncpy(auxAutor,"Tolkien",sizeof(auxAutor));
+				break;
+			case 5:
+				strncpy(auxAutor,"Rowling",sizeof(auxAutor));
+				break;
+			case 6:
+				strncpy(auxAutor,"Collodi Carlo",sizeof(auxAutor));
+				break;
+			case 7:
+				strncpy(auxAutor,"Baum Frank",sizeof(auxAutor));
+				break;
+			case 8:
+				strncpy(auxAutor,"Swift Jonathan",sizeof(auxAutor));
+				break;
+			case 9:
+				strncpy(auxAutor,"Carroll Lewis",sizeof(auxAutor));
+				break;
+		}
+		if(pLibro!=NULL)
+		{
+			Libros_getAutor(auxLibro, auxGetAutor);
+			if(stricmp(auxAutor,auxGetAutor)==0)
+			{
+				retorno=1;
+			}
+			else
+			{
+				retorno=0;
+				Libros_delete(pLibro);
+			}
+		}
+	return retorno;
+}

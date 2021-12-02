@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "inputsGets.h"
 #include "Libros.h"
+#include <string.h>
 
 int menu()
 {
@@ -14,9 +15,10 @@ int menu()
 		  ".............................................\n\n"
 		  "1. Cargar los datos de los Libros desde el archivo Libros.csv (modo texto).\n"
 		  "2. Imprimir lista ordenada por Autor\n"
-		  "3. Imprimir todos los datoss de los libros\n"
+		  "3. Imprimir todos los datos de los libros\n"
 		  "4. Descuentos por Editoriales\n"
 		  "5. Generar archivo de salida mapeado\n"
+		  "6. Filtrar por autor la lista mapeada\n"
 		  "6. Filtrar por editorial de Minotauro\n"
 		  "7. Generar archivos con editorial de Minotauro.\n"
 		  "8. Guardar los datos de los Libros en el archivo Libros.csv (modo texto).\n"
@@ -33,9 +35,9 @@ int menu()
 
 /** \brief Carga los datos de los Libros desde el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
+ * \param path char* nombre del archivo
+ * \param pArrayListLibros LinkedList* linkedlist de los libros
+ * \return int retorna -1 si hubo error, 0 si esta correcto
  *
  */
 int controller_loadFromText(char* path , LinkedList* pArrayListLibros)
@@ -74,9 +76,9 @@ int controller_loadFromText(char* path , LinkedList* pArrayListLibros)
 
 /** \brief Carga los datos de los Libros desde el archivo data.csv (modo pFileario).
  *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
+ * \param path char* nombre del archivo
+ * \param pArrayListLibros LinkedList* linkedlist de los libros
+ * \return int retorna -1 si hubo error, 0 si esta correcto
  *
  */
 int controller_loadFromBinary(char* path , LinkedList* pArrayListLibros)
@@ -105,218 +107,10 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListLibros)
 
 }
 
-/** \brief Alta de Libros
+/** \brief Listar Libros, muestra los libros en forma de lista por columnas
  *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
- *
- */
-
-static int createId(void)
-{
-    static int createId = 1000;
-
-    createId++;
-
-    return createId;
-
-}
-/**
- *
- * @param pArrayListLibros
- * @return
- */
-
-int controller_addLibros(LinkedList* pArrayListLibros)
-{
-	int estado = -1;
-	int precio;
-	int id;
-	char titulo[LEN_NOMBRE];
-	char autor[LEN_NOMBRE];
-	char editorial[LEN_NOMBRE];
-	Libros* auxLibros;
-
-	auxLibros=Libros_new();
-	//id	titulo	autor	precio	editorialId
-
-	if (pArrayListLibros!=NULL)
-	{
-		utn_getDescripcion(titulo,LEN_NOMBRE, "ingrese el titulo: ","Dato Invalido\n",3);
-		utn_getDescripcion(autor,LEN_NOMBRE, "ingrese la Nacionalidad: ","Dato Invalido\n",3);
-		utn_obtenerNumeroEntero(&precio, "Ingrese la cantidad maxima de fichas: ", "Dato invalido\n");
-		utn_getDescripcion(editorial,LEN_NOMBRE, "ingrese la Nacionalidad: ","Dato Invalido\n",3);
-
-		id=createId();
-		Libros_setTitulo(auxLibros, titulo);
-		Libros_setAutor(auxLibros, autor);
-		Libros_setPrecio(auxLibros, precio);
-		Libros_setIdEditorialTxt(auxLibros, editorial);
-		Libros_setIdInt(auxLibros,id);
-		estado = 0;
-
-		ll_add(pArrayListLibros,auxLibros);
-
-
-	}
-	return estado;
-}
-
-/** \brief Modificar datos de Libro
- *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
- *
- */
-int controller_editLibros(LinkedList* pArrayListLibros)
-{
-
-	int estado = -1;
-	int bufferIndex;
-	int id;
-	int option;
-	int precio;
-	char titulo[LEN_NOMBRE];
-	char autor[LEN_NOMBRE];
-	char editorial[LEN_NOMBRE];
-	Libros* auxLibros;
-	int lenLista;
-
-	lenLista=ll_len(pArrayListLibros);
-
-
-	if(lenLista>0)
-	{
-		if(pArrayListLibros!=NULL)
-		{
-			if(utn_obtenerEnteroConReintentos(&id, "Por favor ingrese el ID: ","Dato invalido",3)==0)
-			{
-				printf("ID cargado %d \n",id);
-			}else
-			{
-				printf("ID no encontrado, reintentos maximos");
-			}
-		}
-		if(id>=0)
-		{
-			bufferIndex=Libros_findById(pArrayListLibros,(id));
-
-			auxLibros = ll_get(pArrayListLibros, bufferIndex);
-
-			if(auxLibros!=NULL)
-			{
-
-				puts("Por favor ingrese la opcion que desea modificar: 1: Titulo, 2: Autor, 3: Precio, 4: Editorial");
-
-				if(utn_obtenerEnteroConReintentos(&option, "Por favor ingrese la opcion: ","Dato invalido",3)==0)
-				{
-
-					printf("opcion elegida: %d \n",option);
-				}else
-				{
-					printf("opcion no valida, reintentos maximos");
-				}
-
-				switch (option)
-
-				{
-					case 1:
-
-						if(utn_getDescripcion(titulo,256, "ingrese el titulo: ","Dato Invalido",3)==0)
-							Libros_setTitulo(auxLibros, titulo);
-						else
-							puts("No se pudo cambiar el titulo");
-
-						break;
-					case 2:
-							if(utn_getDescripcion(autor,256, "ingrese el autor: ","Dato Invalido",3)==0)
-								Libros_setAutor(auxLibros, autor);
-							else
-								puts("No se pudo cambiar el autor");
-
-						break;
-					case 3:
-						if(utn_obtenerEnteroConReintentos(&precio, "\nIngrese el precio: ", "Dato invalido",3)==0)
-								Libros_setPrecio(auxLibros,precio);
-							else
-								puts("No se pudo cambiar el precio");
-					break;
-					case 4:
-						if(utn_getDescripcion(editorial,256, "ingrese el titulo: ","Dato Invalido",3)==0)
-							Libros_setIdEditorialTxt(auxLibros, editorial);
-						else
-							puts("No se pudo cambiar la editorial");
-					break;
-
-						estado=0;
-				}
-			}
-		}
-	}
-return estado;
-}
-
-
-/** \brief Baja de Libro
- *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
- *
- */
-int controller_removeLibros(LinkedList* pArrayListLibros)
-{
-
-	int bufferIndex;
-	Libros* auxLibros;
-	int estado=-1;
-	int id;
-
-	if(pArrayListLibros!=NULL)
-	{
-		if(utn_obtenerEnteroConReintentos(&id, "Por favor ingrese el ID: ","Dato invalido",3)==0)
-		{
-			printf("ID cargado: %d\n",id);
-		}else
-		{
-
-			printf("ID no encontrado, reintentos maximos");
-		}
-	}
-	if(id>0)
-
-	{
-
-		bufferIndex=Libros_findById(pArrayListLibros,id);
-		printf("%d\n",bufferIndex);
-
-		//bufferIndex=bufferIndex-1;
-		auxLibros = ll_get(pArrayListLibros, (bufferIndex));
-
-
-		if(auxLibros!=NULL)
-		{
-
-			ll_remove(pArrayListLibros,bufferIndex);
-
-			free(auxLibros);
-
-
-			estado=0;
-		}
-
-	}
-
-    return estado;
-}
-
-/** \brief Listar Libros
- *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
+ * \param pArrayListLibros LinkedList* linkedlist de los libros
+ * \return estado, retorna -1 si hubo error, 0 si esta bien.
  *
  */
 int controller_ListLibros(LinkedList* pArrayListLibros)
@@ -355,26 +149,26 @@ int controller_ListLibros(LinkedList* pArrayListLibros)
 
 
 
-/** \brief Ordenar Libros
+/**\brief ordena los libros, utilizando ll_sort y se pasa una funcion criterio como parametro.
  *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
- *
+ * @param pArrayListLibros LinkedList* linkedlist de los libros
+ * @return estado, retorna -1 si hubo error, 0 si esta bien.
  */
 int controller_sortLibros(LinkedList* pArrayListLibros)
 {
     int retorno=-1;
-	int option;
+	//int option;
 	int lenght;
-	int optionSeg;
+	//int optionSeg;
 
 	lenght=ll_len(pArrayListLibros);
 
 
 	if(lenght>0)
 	{
-		printf("Elija la opcion para el criterio de orden?\n"
+		ll_sort(pArrayListLibros,Libros_sortAutor,0);
+
+		/*printf("Elija la opcion para el criterio de orden?\n"
 				" 1)ID\n"
 				" 2)titulo\n"
 				" 3)autor\n"
@@ -433,7 +227,7 @@ int controller_sortLibros(LinkedList* pArrayListLibros)
 		    		break;
 		    	}
 		    }
-		}
+		}*/
 	}else
 	{
 		printf("\nNo hay Libros cargados para ordenar\n");
@@ -442,13 +236,11 @@ int controller_sortLibros(LinkedList* pArrayListLibros)
     return retorno;
 }
 
-
-/** \brief Guarda los datos de los Libros en el archivo data.csv (modo texto).
+/** \brief Guarda los datos de los Libros en el archivo path.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
- *
+ * @param path, se pasa por parametro el nombre del archivo
+ * @param pArrayListLibros lista dinamica de los libros
+ * @return estado, -1 si hubo ERROR, 0 si esta correcto.
  */
 int controller_saveAsText(char* path , LinkedList* pArrayListLibros)
 {
@@ -508,12 +300,10 @@ int controller_saveAsText(char* path , LinkedList* pArrayListLibros)
 return estado;
 }
 
-/** \brief Guarda los datos de los Libros en el archivo data.csv (modo pFileario).
- *
- * \param path char*
- * \param pArrayListLibros LinkedList*
- * \return int
- *
+/** \brief Guarda los datos de los Libros en el archivo path.csv (modo binario).
+ * @param path, se pasa por parametro el nombre del archivo
+ * @param pArrayListLibros lista dinamica de los libros
+ * @return estado, -1 si hubo ERROR, 0 si esta correcto.
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListLibros)
 {
@@ -560,10 +350,8 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListLibros)
 
     return estado;
 }
-/**
- *
- * @param pArrayListLibros
- * @return
+/**@brief es la funcion donde se utiliza ll_map para mapear, y recibe por parametro la funcion para aplicar el descuento
+ * @param pArrayListLibros lista dinamica de los libros
  */
 int controller_EditorialConDescuento(LinkedList* pArrayListLibros)
 {
@@ -589,5 +377,66 @@ int controller_EditorialConDescuento(LinkedList* pArrayListLibros)
 		}
 	}
 
+	return retorno;
+}
+
+/**
+ * @brief obtengo la linkedlist, la recorro y voy uno por uno comparando, si hay igual salgo, sino sigo y lo muestro
+ * @param pListLibros
+ * @return retorno 1 si la lista no es NULL, 0 si esta ok, -1 si Hay error.
+ */
+int controller_listaAutor(LinkedList* pListLibros)
+{
+	int index;
+	int j;
+	int banderaHay;
+	Libros* pLibroUno;
+	Libros* pLibroDos;
+	char nombreAutor[LEN_NOMBRE];
+	char nombreAutorDos[LEN_NOMBRE];
+	int retorno = -1;
+	int length;
+	int contador=0;
+
+	length=ll_len(pListLibros);
+
+	if(pListLibros != NULL)
+	{
+
+		retorno = 1;
+		for(index = 0; index < length; index++)
+		{
+
+			pLibroUno = (Libros*)ll_get(pListLibros, index);
+			if(pLibroUno != NULL)
+			{
+				if(!Libros_getAutor(pLibroUno, nombreAutor))
+				{
+					banderaHay = 0;
+					for(j = 0; j < index ; j++)
+					{
+						pLibroDos = (Libros*)ll_get(pListLibros, j);
+						if(pLibroDos != NULL)
+						{
+							if(!Libros_getAutor(pLibroDos, nombreAutorDos))
+							{
+								if(strcmp(nombreAutor, nombreAutorDos)==0)
+								{
+									banderaHay = 1;
+									break;
+								}
+							}
+						}
+					}
+					if(banderaHay == 0)
+					{
+						retorno=0;
+						contador++;
+						printf("\n%d, %s",contador,nombreAutor);
+					}
+				}
+			}
+		}
+	}
 	return retorno;
 }
