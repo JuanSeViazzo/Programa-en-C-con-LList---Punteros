@@ -65,10 +65,11 @@ int main()
     int flagDescuento=0;
    // char pResultado[100];
     int banderaListAutor=0;
-
+    int puntoCuatro=0;
     LinkedList* listaLibros = ll_newLinkedList();
     LinkedList* listaAuxLibrosMinotauro;
     LinkedList* listaAuxLibrosDescuentos;
+    LinkedList* listaAuxAutores;
 
 
     do{
@@ -101,25 +102,25 @@ int main()
     	            case 2:
     	            	controller_sortLibros(listaLibros);
     	            	controller_ListLibros(listaLibros);
-    	            	//controller_addLibros(listaLibros);
     	            break;
     	            case 3:
     	            	puts("------Lista de Libros-----");
     	            	controller_ListLibros(listaLibros);
-    	            	//controller_editLibros(listaLibros);
     	            break;
-    	           /* case 4:
-    	            	puts("------Lista de Libros-----");
-    	            	controller_ListLibros(listaLibros);
-    	            	controller_removeLibros(listaLibros);
-    	            	break;*/
+
     	            case 4:
-    	                listaAuxLibrosDescuentos=ll_clone(listaLibros);
-    	                controller_EditorialConDescuento(listaAuxLibrosDescuentos);
-    	            	puts("------Lista de Libros Con Descuento-----");
-    	            	controller_ListLibros(listaAuxLibrosDescuentos);
-    	            	flagDescuento=1;
-    	            	banderaListAutor=1;
+    	            	if(puntoCuatro==1)
+    	            	ll_clear(listaAuxLibrosDescuentos);
+    	            	{
+        	                listaAuxLibrosDescuentos=ll_clone(listaLibros);
+        	                controller_EditorialConDescuento(listaAuxLibrosDescuentos);
+        	            	puts("------Lista de Libros Con Descuento-----");
+        	            	controller_ListLibros(listaAuxLibrosDescuentos);
+        	            	flagDescuento=1;
+        	            	banderaListAutor=1;
+        	            	puntoCuatro=1;
+    	            	}
+
 					break;
     	            case 5:
     	            	if(flagDescuento==0)
@@ -132,13 +133,15 @@ int main()
     	            	if(banderaListAutor==1)
     	            	{
     	            		controller_listaAutor(listaAuxLibrosDescuentos);
-							ll_filter(listaAuxLibrosDescuentos,libros_filterAutor);
+    	            		listaAuxAutores=ll_clone(listaAuxLibrosDescuentos);
+							ll_filter(listaAuxAutores,libros_filterAutor);
 							puts("------Lista de Libros Filtrada por Autor-----");
-							controller_ListLibros(listaAuxLibrosDescuentos);
+							controller_ListLibros(listaAuxAutores);
 							banderaListAutor=0;
-    	            	}else
-    	            		puts("primero debe realizar la operacion Numero 4");
+							controller_saveAsText("descuentoAutor.csv",listaAuxAutores);
 
+    	            	}else
+    	            		puts("No puede realizar el paso, ya ha generado el archivo, descuento por autor");
 
     	            break;
     	            case 7:
